@@ -5,11 +5,11 @@ module.exports = {
 
   inputs: {
     reponame: {
-      type: String,
+      type: "string",
       required: true,
     },
     username: {
-      type: String,
+      type: "string",
       required: true,
     },
   },
@@ -50,11 +50,14 @@ module.exports = {
     if (username === undefined || username === null) {
       throw exits.nullProjectName;
     }
-
+    console.log(reponame, username);
     const options = await sails.helpers.callapi(
-      `/repos/${username}/${reponame}/commits`
+      `repos/${username}/${reponame}/commits`,
+      reponame
     );
 
-    return options;
+    console.log(options);
+
+    return exits.success(options);
   },
 };

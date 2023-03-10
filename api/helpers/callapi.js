@@ -1,5 +1,5 @@
 const axios = require("axios");
-const constants = require("./constants");
+const constants = require("../../constants");
 
 module.exports = {
   friendlyName: "Callapi",
@@ -8,7 +8,11 @@ module.exports = {
 
   inputs: {
     apiPath: {
-      type: String,
+      type: "string",
+      required: true,
+    },
+    projectName: {
+      type: "string",
       required: true,
     },
   },
@@ -21,21 +25,24 @@ module.exports = {
 
   fn: async function (inputs) {
     let apiPath = inputs.apiPath;
+    let projectName = inputs.projectName;
     let data = null;
-    await axios
-      .get(apiPath, {
-        baseURL: constants.hostname,
-        headers: {
-          "User-Agent": constants.user_agent,
-          Authorization: "token " + process.env.GITHUB_ACCESS_TOKEN,
-        },
-      })
+    console.log(apiPath);
+    await axios({
+      method: "get",
+      url: `https://api.github.com/${apiPath}`,
+      headers: {
+        "User-Agent": constants.user_agent,
+        Authorization: "token " + "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",
+      },
+    })
       .then(function (response) {
-        data = response;
+        console.log(response);
+        data = response.data;
       })
       .catch(function (error) {
         console.log(error);
       });
-    return data;
+    return await sails.helpers.normalizedata(data, projectName);
   },
 };
