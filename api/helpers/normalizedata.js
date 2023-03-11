@@ -24,13 +24,13 @@ module.exports = {
 
   fn: async function (inputs) {
     let data = inputs.data;
-    console.log(data);
     let projectName = inputs.projectName;
 
     let commits = [];
     data.forEach((commit) => {
       let newCommit = {
-        id: commit.node_id,
+        node_id: commit.node_id,
+        sha: commit.sha,
         message: getMessage(commit),
         author: getAuthor(commit),
         datetime: getDateTime(commit),
