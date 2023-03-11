@@ -33,7 +33,7 @@ module.exports = {
       url: `https://api.github.com/${apiPath}`,
       headers: {
         "User-Agent": constants.user_agent,
-        Authorization: "token " + "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",
+        Authorization: "token " + sails.config.githubkey,
       },
     })
       .then(function (response) {
